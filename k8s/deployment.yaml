@@ -27,7 +27,7 @@ spec:
           requests:
             memory: "128Mi"
             cpu: "250m"
-        # env:  # Bỏ comment phần này nếu ứng dụng của bạn cần biến môi trường
+        # env:
         # - name: NODE_ENV
         #   value: "production"
 ---
