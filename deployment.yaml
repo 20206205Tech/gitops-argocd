@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-abcd-service-deployment
+  labels:
+    app: code-abcd-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: code-abcd-service
+  template:
+    metadata:
+      labels:
+        app: code-abcd-service
+    spec:
+      containers:
+      - name: code-abcd-service
+        image: vuvannghiawork/code-abcd-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+        # env:  # Bỏ comment phần này nếu ứng dụng của bạn cần biến môi trường
+        # - name: NODE_ENV
+        #   value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-abcd-service
+spec:
+  selector:
+    app: code-abcd-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
