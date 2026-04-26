@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: code-chatbot-service
-        image: vuvannghiawork/code-chatbot-service:latest
+        image: vuvannghiawork/code-chatbot-service:sha-dfb83dd
         imagePullPolicy: Always
         ports:
         - containerPort: 30003
