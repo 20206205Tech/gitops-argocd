@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: code-abcd-service-deployment
+  name: code-document-service-deployment
   labels:
-    app: code-abcd-service
+    app: code-document-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: code-abcd-service
+      app: code-document-service
   template:
     metadata:
       labels:
-        app: code-abcd-service
+        app: code-document-service
     spec:
       containers:
-      - name: code-abcd-service
-        image: vuvannghiawork/code-abcd-service:sha-d30ed5c
+      - name: code-document-service
+        image: vuvannghiawork/code-document-service:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -34,10 +34,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: code-abcd-service
+  name: code-document-service
 spec:
   selector:
-    app: code-abcd-service
+    app: code-document-service
   ports:
     - protocol: TCP
       port: 80
