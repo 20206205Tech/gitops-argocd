@@ -1,47 +1,47 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: code-chatbot-service-deployment
-#   labels:
-#     app: code-chatbot-service
-# spec:
-#   replicas: 2
-#   selector:
-#     matchLabels:
-#       app: code-chatbot-service
-#   template:
-#     metadata:
-#       labels:
-#         app: code-chatbot-service
-#     spec:
-#       imagePullSecrets:
-#       - name: docker-pull-secret
-#       containers:
-#       - name: code-chatbot-service
-#         image: vuvannghiawork/code-chatbot-service:sha-6dc921d
-#         imagePullPolicy: Always
-#         ports:
-#         - containerPort: 30003
-#         # resources:
-#         #   limits:
-#         #     memory: "256Mi"
-#         #     cpu: "500m"
-#         #   requests:
-#         #     memory: "128Mi"
-#         #     cpu: "250m"
-#         envFrom:
-#         - secretRef:
-#             name: app-env-secrets
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: code-chatbot-service
-# spec:
-#   selector:
-#     app: code-chatbot-service
-#   ports:
-#     - protocol: TCP
-#       port: 80
-#       targetPort: 30003
-#   type: ClusterIP
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-chatbot-service-deployment
+  labels:
+    app: code-chatbot-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: code-chatbot-service
+  template:
+    metadata:
+      labels:
+        app: code-chatbot-service
+    spec:
+      imagePullSecrets:
+      - name: docker-pull-secret
+      containers:
+      - name: code-chatbot-service
+        image: vuvannghiawork/code-chatbot-service:sha-6dc921d
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 30003
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "500m"
+        #   requests:
+        #     memory: "128Mi"
+        #     cpu: "250m"
+        envFrom:
+        - secretRef:
+            name: app-env-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-chatbot-service
+spec:
+  selector:
+    app: code-chatbot-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 30003
+  type: ClusterIP
