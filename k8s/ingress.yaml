@@ -1,7 +1,20 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-abcd-prefix
+  namespace: default
+spec:
+  stripPrefix:
+    prefixes:
+      - /code-abcd-service
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: microservices-ingress
+  annotations:
+    # Cú pháp: <namespace>-<tên-middleware>@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: default-strip-abcd-prefix@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
@@ -14,10 +27,3 @@ spec:
             name: code-abcd-service
             port:
               number: 80
-      # - path: /user
-      #   pathType: Prefix
-      #   backend:
-      #     service:
-      #       name: user-service
-      #       port:
-      #         number: 80

@@ -8,7 +8,6 @@ spec:
   tls:
   - hosts:
     - argocd.20206205.tech
-    # Không cần khai báo secretName, Traefik sẽ dùng chứng chỉ mặc định
   rules:
   - host: argocd.20206205.tech
     http:
