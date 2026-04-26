@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: code-document-service-deployment
+  name: code-conversation-service-deployment
   labels:
-    app: code-document-service
+    app: code-conversation-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: code-document-service
+      app: code-conversation-service
   template:
     metadata:
       labels:
-        app: code-document-service
+        app: code-conversation-service
     spec:
       containers:
-      - name: code-document-service
-        image: vuvannghiawork/code-document-service:sha-d012413
+      - name: code-conversation-service
+        image: vuvannghiawork/code-conversation-service:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 30004
+        - containerPort: 30002
         resources:
           limits:
             memory: "256Mi"
@@ -34,12 +34,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: code-document-service
+  name: code-conversation-service
 spec:
   selector:
-    app: code-document-service
+    app: code-conversation-service
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 30004
+      targetPort: 30002
   type: ClusterIP
