@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: code-abcd-service
-        image: vuvannghiawork/code-abcd-service:sha-0fe3fed
+        image: vuvannghiawork/code-abcd-service:sha-207e4b2
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
