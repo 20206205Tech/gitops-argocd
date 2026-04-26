@@ -18,7 +18,7 @@ spec:
       - name: docker-pull-secret
       containers:
       - name: code-chatbot-service
-        image: vuvannghiawork/code-chatbot-service:sha-2164043
+        image: vuvannghiawork/code-chatbot-service:sha-e02e8d8
         imagePullPolicy: Always
         ports:
         - containerPort: 30003
