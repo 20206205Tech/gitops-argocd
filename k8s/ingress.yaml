@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: microservices-ingress
+spec:
+  ingressClassName: traefik
+  rules:
+  - http:
+      paths:
+      - path: /code-abcd-service
+        pathType: Prefix
+        backend:
+          service:
+            name: code-abcd-service
+            port:
+              number: 80
+      # - path: /user
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: user-service
+      #       port:
+      #         number: 80
