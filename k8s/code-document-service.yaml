@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: code-document-service
-        image: vuvannghiawork/code-document-service:sha-7250931
+        image: vuvannghiawork/code-document-service:sha-2403102
         imagePullPolicy: Always
         ports:
         - containerPort: 30004
