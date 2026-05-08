@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-conversation-service-deployment
+  labels:
+    app: code-conversation-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-conversation-service
+  template:
+    metadata:
+      labels:
+        app: code-conversation-service
+    spec:
+      containers:
+      - name: code-conversation-service
+        image: vuvannghiawork/code-conversation-service:sha-dbaabe9
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 33002
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "500m"
+        #   requests:
+        #     memory: "128Mi"
+        #     cpu: "250m"
+        envFrom:
+        - secretRef:
+            name: app-env-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-conversation-service
+spec:
+  selector:
+    app: code-conversation-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 33002
+  type: ClusterIP

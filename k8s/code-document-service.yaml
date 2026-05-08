@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-document-service-deployment
+  labels:
+    app: code-document-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-document-service
+  template:
+    metadata:
+      labels:
+        app: code-document-service
+    spec:
+      containers:
+      - name: code-document-service
+        image: vuvannghiawork/code-document-service:sha-1965515
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 52002
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "500m"
+        #   requests:
+        #     memory: "128Mi"
+        #     cpu: "250m"
+        envFrom:
+        - secretRef:
+            name: app-env-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-document-service
+spec:
+  selector:
+    app: code-document-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 52002
+  type: ClusterIP
