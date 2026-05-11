@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-persona-service-deployment
+  labels:
+    app: code-persona-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-persona-service
+  template:
+    metadata:
+      labels:
+        app: code-persona-service
+    spec:
+      containers:
+      - name: code-persona-service
+        image: vuvannghiawork/code-persona-service:sha-d0bd7f7
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 52003
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "500m"
+        #   requests:
+        #     memory: "128Mi"
+        #     cpu: "250m"
+        envFrom:
+        - secretRef:
+            name: app-env-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-persona-service
+spec:
+  selector:
+    app: code-persona-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 52003
+  type: ClusterIP
