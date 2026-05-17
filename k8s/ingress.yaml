@@ -32,3 +32,12 @@ spec:
             name: code-document-service
             port:
               number: 80
+
+
+      - path: /code-persona-service
+        pathType: Prefix
+        backend:
+          service:
+            name: code-persona-service
+            port:
+              number: 80
