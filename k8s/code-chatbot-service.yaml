@@ -53,3 +53,45 @@ spec:
       port: 50051
       targetPort: 50051
   type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-chatbot-voice-deployment
+  labels:
+    app: code-chatbot-voice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: code-chatbot-voice
+  template:
+    metadata:
+      labels:
+        app: code-chatbot-voice
+    spec:
+      imagePullSecrets:
+      - name: docker-pull-secret
+      containers:
+      - name: code-chatbot-voice
+        image: vuvannghiawork/code-chatbot-service:sha-a45965d
+        imagePullPolicy: Always
+
+        # ==========================================
+        # Ghi đè lệnh khởi động (Override CMD)
+        # ==========================================
+        command: ["python"]
+        args: ["voice_worker.py", "start"]
+
+        # Cấu hình tài nguyên (Khuyến nghị bật để tránh rò rỉ RAM khi xử lý voice stream)
+        # resources:
+        #   limits:
+        #     memory: "512Mi"
+        #     cpu: "1000m"
+        #   requests:
+        #     memory: "256Mi"
+        #     cpu: "500m"
+
+        envFrom:
+        - secretRef:
+            name: app-env-secrets
