@@ -5,7 +5,7 @@ metadata:
   labels:
     app: code-persona-service
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: code-persona-service
