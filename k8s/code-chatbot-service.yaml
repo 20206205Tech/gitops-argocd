@@ -80,10 +80,10 @@ spec:
         args: ["voice_worker.py", "start"]
         resources:
           limits:
-            memory: "1536Mi"  # ~1.5GB: Ngưỡng an toàn cho LiveKit worker (~900MB + Headroom)
+            memory: "2560Mi"  # Nâng mức trần lên 2.5GB (hoặc "2Gi" nếu muốn thử ở mức 2GB trước)
             cpu: "1000m"
           requests:
-            memory: "800Mi"   # Đảm bảo Node có đủ RAM trống trước khi xếp lịch (schedule) Pod
+            memory: "1024Mi"  # Nâng cấu hình tối thiểu lên 1GB
             cpu: "500m"
         envFrom:
         - secretRef:
