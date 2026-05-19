@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/20206205Tech/gitops-argocd
-    targetRevision: HEAD
+    targetRevision: main
     path: k8s
   destination:
     server: https://kubernetes.default.svc
