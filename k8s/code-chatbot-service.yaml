@@ -61,7 +61,7 @@ metadata:
   labels:
     app: code-chatbot-voice
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: code-chatbot-voice
@@ -76,13 +76,8 @@ spec:
       - name: code-chatbot-voice
         image: vuvannghiawork/code-chatbot-service:sha-984ecd8
         imagePullPolicy: Always
-
-        # ==========================================
-        # Ghi đè lệnh khởi động (Override CMD)
-        # ==========================================
         command: ["python"]
         args: ["voice_worker.py", "start"]
-
         resources:
           limits:
             memory: "1536Mi"  # ~1.5GB: Ngưỡng an toàn cho LiveKit worker (~900MB + Headroom)
@@ -90,7 +85,6 @@ spec:
           requests:
             memory: "800Mi"   # Đảm bảo Node có đủ RAM trống trước khi xếp lịch (schedule) Pod
             cpu: "500m"
-
         envFrom:
         - secretRef:
             name: app-env-secrets
