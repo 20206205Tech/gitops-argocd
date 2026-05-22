@@ -82,11 +82,11 @@ spec:
         - name: OLLAMA_API_KEY
           valueFrom:
             secretKeyRef:
-              name: app-env-secrets # Kéo từ Doppler
+              name: app-env-secrets
               key: OLLAMA_API_KEY
         volumeMounts:
         - name: nginx-template
-          mountPath: /etc/nginx/templates/default.conf.template
+          mountPath: /etc/nginx/templates # <--- CHỈ ĐỂ THƯ MỤC NÀY
 
       # Container 3: Auto Puller (Đợi Ollama lên rồi tự kéo model)
       - name: auto-puller
