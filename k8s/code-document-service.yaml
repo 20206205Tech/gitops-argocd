@@ -5,7 +5,7 @@ metadata:
   labels:
     app: code-document-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: code-document-service
@@ -38,6 +38,52 @@ metadata:
 spec:
   selector:
     app: code-document-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 52002
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-document-worker-deployment
+  labels:
+    app: code-document-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-document-worker
+  template:
+    metadata:
+      labels:
+        app: code-document-worker
+    spec:
+      containers:
+      - name: code-document-worker
+        image: vuvannghiawork/code-document-worker:sha-d7d0daa
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 52002
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "500m"
+        #   requests:
+        #     memory: "128Mi"
+        #     cpu: "250m"
+        envFrom:
+        - secretRef:
+            name: app-env-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-document-worker
+spec:
+  selector:
+    app: code-document-worker
   ports:
     - protocol: TCP
       port: 80
