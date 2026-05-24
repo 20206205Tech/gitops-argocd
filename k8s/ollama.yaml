@@ -70,7 +70,9 @@ spec:
           name: ollama-nginx-template
       containers:
 
-      # Container 1: Ollama Server (Chạy ngầm ở port 11434)
+
+
+      # Container 1: Ollama
       - name: ollama
         image: ollama/ollama:latest
         ports:
@@ -78,10 +80,20 @@ spec:
         volumeMounts:
         - name: ollama-data
           mountPath: /root/.ollama
+        # Báo cho K8s biết Ollama đã sống
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 11434
+          initialDelaySeconds: 10
+          periodSeconds: 5
 
-      # Container 2: Nginx Proxy (Chắn cổng 80, kiểm tra API Key)
+      # Container 2: Nginx Proxy
       - name: nginx-proxy
         image: nginx:alpine
+
+
+
         ports:
         - containerPort: 80
         env:
@@ -94,18 +106,42 @@ spec:
         - name: nginx-template
           mountPath: /etc/nginx/templates # <--- CHỈ ĐỂ THƯ MỤC NÀY
 
-      # Container 3: Auto Puller (Đợi Ollama lên rồi tự kéo model)
-      - name: auto-puller
-        image: curlimages/curl:latest
-        command: ["sh", "-c"]
-        args:
-          - |
-            echo "Đang chờ Ollama sẵn sàng..."
-            while ! curl -s http://127.0.0.1:11434/api/tags > /dev/null; do sleep 5; done
-            echo "Bắt đầu gọi API tải model gemma2:9b..."
-            curl -X POST http://127.0.0.1:11434/api/pull -d '{"name": "gemma2:9b"}'
-            echo "Hoàn tất tải model!"
-            sleep infinity # Giữ container sống để k8s không báo lỗi CrashLoop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+
+      # # Container 3: Auto Puller (Đợi Ollama lên rồi tự kéo model)
+      # - name: auto-puller
+      #   image: curlimages/curl:latest
+      #   command: ["sh", "-c"]
+      #   args:
+      #     - |
+      #       echo "Đang chờ Ollama sẵn sàng..."
+      #       while ! curl -s http://127.0.0.1:11434/api/tags > /dev/null; do sleep 5; done
+      #       echo "Bắt đầu gọi API tải model gemma2:9b..."
+      #       curl -X POST http://127.0.0.1:11434/api/pull -d '{"name": "gemma2:9b"}'
+      #       echo "Hoàn tất tải model!"
+      #       sleep infinity # Giữ container sống để k8s không báo lỗi CrashLoop
 ---
 # 4. Service trỏ vào port 80 của Nginx (Không trỏ vào 11434 của Ollama)
 apiVersion: v1
