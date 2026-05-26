@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: code-document-service-deployment
+  name: code-document-worker-deployment
   labels:
-    app: code-document-service
+    app: code-document-worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: code-document-service
+      app: code-document-worker
   template:
     metadata:
       labels:
-        app: code-document-service
+        app: code-document-worker
     spec:
       containers:
-      - name: code-document-service
-        image: vuvannghiawork/code-document-service:sha-dc738c5
+      - name: code-document-worker
+        image: vuvannghiawork/code-document-worker:sha-21fdab1
         imagePullPolicy: Always
         ports:
         - containerPort: 52002
@@ -34,10 +34,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: code-document-service
+  name: code-document-worker
 spec:
   selector:
-    app: code-document-service
+    app: code-document-worker
   ports:
     - protocol: TCP
       port: 80
