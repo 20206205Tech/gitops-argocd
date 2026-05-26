@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: code-conversation-service
-        image: vuvannghiawork/code-conversation-service:sha-2bd35b2
+        image: vuvannghiawork/code-conversation-service:sha-0f5d0ca
         imagePullPolicy: Always
         ports:
         - containerPort: 33002
