@@ -5,7 +5,7 @@ metadata:
   labels:
     app: code-chatbot-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: code-chatbot-service
@@ -61,7 +61,7 @@ metadata:
   labels:
     app: code-chatbot-voice
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: code-chatbot-voice
