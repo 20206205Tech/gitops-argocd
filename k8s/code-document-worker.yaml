@@ -31,16 +31,16 @@ spec:
         envFrom:
         - secretRef:
             name: app-env-secrets
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: code-document-worker
-spec:
-  selector:
-    app: code-document-worker
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 52002
-  type: ClusterIP
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: code-document-worker
+# spec:
+#   selector:
+#     app: code-document-worker
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 52002
+#   type: ClusterIP
