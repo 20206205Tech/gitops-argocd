@@ -1,0 +1,30 @@
+# # Middleware để cắt bỏ path /ollama
+# apiVersion: traefik.io/v1alpha1
+# kind: Middleware
+# metadata:
+#   name: strip-ollama-prefix
+#   namespace: default
+# spec:
+#   stripPrefix:
+#     prefixes:
+#       - /ollama
+
+# ---
+# # Route cho Traefik
+# apiVersion: traefik.io/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: ollama-ingress
+#   namespace: default
+# spec:
+#   entryPoints:
+#     - web
+#     - websecure
+#   routes:
+#     - kind: Rule
+#       match: PathPrefix(`/ollama`)
+#       middlewares:
+#         - name: strip-ollama-prefix
+#       services:
+#         - name: ollama-service
+#           port: 80
