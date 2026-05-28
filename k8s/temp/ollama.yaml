@@ -52,6 +52,7 @@ metadata:
   labels:
     app: ollama
 spec:
+  revisionHistoryLimit: 2
   replicas: 1 # Khuyến cáo để 1 vì model tốn nhiều RAM/GPU
   selector:
     matchLabels:
