@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq-deployment
+  name: rabbitmq-worker-deployment
   labels:
-    app: rabbitmq
+    app: rabbitmq-worker
 spec:
   revisionHistoryLimit: 2
   replicas: 1
   selector:
     matchLabels:
-      app: rabbitmq
+      app: rabbitmq-worker
   template:
     metadata:
       labels:
-        app: rabbitmq
+        app: rabbitmq-worker
     spec:
       containers:
-      - name: rabbitmq
+      - name: rabbitmq-worker
         image: rabbitmq:4.0-management
         imagePullPolicy: Always
         ports:
@@ -29,22 +29,22 @@ spec:
           value: "admin"
         - name: RABBITMQ_DEFAULT_PASS
           value: "secret123"
-        # Bỏ comment phần dưới này nếu cluster của bạn có hỗ trợ StorageClass để lưu data
+        # Bỏ comment phần dưới này nếu cluster có hỗ trợ StorageClass để lưu data
         # volumeMounts:
-        # - name: rabbitmq-data
-        #   mountPath: /var/lib/rabbitmq
+        # - name: rabbitmq-worker-data
+        #   mountPath: /var/lib/rabbitmq # SỬA: Giữ đúng đường dẫn gốc của container
 #       volumes:
-#       - name: rabbitmq-data
+#       - name: rabbitmq-worker-data
 #         persistentVolumeClaim:
-#           claimName: rabbitmq-pvc
+#           claimName: rabbitmq-worker-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq
+  name: rabbitmq-worker
 spec:
   selector:
-    app: rabbitmq
+    app: rabbitmq-worker
   ports:
     - name: amqp
       protocol: TCP
