@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-persona-deployment
+  labels:
+    app: redis-persona
+spec:
+  revisionHistoryLimit: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-persona
+  template:
+    metadata:
+      labels:
+        app: redis-persona
+    spec:
+      containers:
+      - name: redis-persona
+        image: redis:7.4-alpine
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6379
+          name: redis
+        command: ["redis-server", "--requirepass", "secret123", "--appendonly", "yes"]
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-persona
+spec:
+  selector:
+    app: redis-persona
+  ports:
+    - name: redis
+      protocol: TCP
+      port: 6379
+      targetPort: 6379
+  type: ClusterIP

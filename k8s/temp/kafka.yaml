@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-deployment
+  labels:
+    app: kafka
+spec:
+  revisionHistoryLimit: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+      - name: kafka
+        # Sử dụng image chính thức của Apache Kafka (hỗ trợ KRaft)
+        image: apache/kafka:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9092
+          name: client
+        env:
+        # Cấu hình Kafka chạy chế độ KRaft (Không cần Zookeeper)
+        - name: KAFKA_NODE_ID
+          value: "1"
+        - name: KAFKA_PROCESS_ROLES
+          value: "broker,controller"
+        - name: KAFKA_LISTENERS
+          value: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093"
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: "PLAINTEXT://kafka:9092"
+        - name: KAFKA_CONTROLLER_LISTENER_NAMES
+          value: "CONTROLLER"
+        - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+          value: "1@localhost:9093"
+        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+          value: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+        # Sinh một Cluster ID tĩnh ngẫu nhiên cho KRaft
+        - name: KAFKA_LOG_DIRS
+          value: "/tmp/kraft-combined-logs"
+        # Bỏ comment phần dưới này nếu cluster của bạn có hỗ trợ StorageClass để lưu data ổn định
+        # volumeMounts:
+        # - name: kafka-data
+        #   mountPath: /tmp/kraft-combined-logs
+#       volumes:
+#       - name: kafka-data
+#         persistentVolumeClaim:
+#           claimName: kafka-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+spec:
+  selector:
+    app: kafka
+  ports:
+    - name: client
+      protocol: TCP
+      port: 9092
+      targetPort: 9092
+  type: ClusterIP
