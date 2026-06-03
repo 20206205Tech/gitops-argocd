@@ -21,6 +21,9 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 52003
+        volumeMounts:
+        - name: data-volume
+          mountPath: /app/data
         # resources:
         #   limits:
         #     memory: "256Mi"
@@ -31,6 +34,10 @@ spec:
         envFrom:
         - secretRef:
             name: app-env-secrets
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: code-persona-service-data-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -44,3 +51,16 @@ spec:
       port: 80
       targetPort: 52003
   type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: code-persona-service-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 5Gi
+
