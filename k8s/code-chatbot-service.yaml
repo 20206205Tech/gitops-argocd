@@ -19,7 +19,7 @@ spec:
       - name: docker-pull-secret
       containers:
       - name: code-chatbot-service
-        image: vuvannghiawork/code-chatbot-service:sha-526c433
+        image: vuvannghiawork/code-chatbot-service:sha-e40e996
         imagePullPolicy: Always
         ports:
         - name: http
@@ -76,7 +76,7 @@ spec:
       - name: docker-pull-secret
       containers:
       - name: code-chatbot-voice
-        image: vuvannghiawork/code-chatbot-service:sha-526c433
+        image: vuvannghiawork/code-chatbot-service:sha-e40e996
         imagePullPolicy: Always
         command: ["python"]
         args: ["voice_worker.py", "start"]
