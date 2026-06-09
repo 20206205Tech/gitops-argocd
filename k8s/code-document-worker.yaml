@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: code-document-worker
-        image: vuvannghiawork/code-document-worker:sha-d41ee97
+        image: vuvannghiawork/code-document-worker:sha-1ec8e16
         imagePullPolicy: Always
         ports:
         - containerPort: 52002
