@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: code-persona-service
-        image: vuvannghiawork/code-persona-service:sha-f0ca347
+        image: vuvannghiawork/code-persona-service:sha-a3f859f
         imagePullPolicy: Always
         ports:
         - containerPort: 52003
