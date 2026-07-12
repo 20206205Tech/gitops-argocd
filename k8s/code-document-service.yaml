@@ -14,6 +14,8 @@ spec:
     metadata:
       labels:
         app: code-document-service
+      annotations:
+        secrets.doppler.com/reload: "true"
     spec:
       containers:
       - name: code-document-service

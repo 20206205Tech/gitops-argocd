@@ -14,6 +14,8 @@ spec:
     metadata:
       labels:
         app: code-persona-service
+      annotations:
+        secrets.doppler.com/reload: "true"
     spec:
       containers:
       - name: code-persona-service
